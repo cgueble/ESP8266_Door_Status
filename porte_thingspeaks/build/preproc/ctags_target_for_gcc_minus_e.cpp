@@ -1,9 +1,11 @@
-#include <ESP8266WiFi.h>
-#include <WiFiUdp.h>
-#include <TimeLib.h>
-#include <PubSubClient.h>
+# 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+# 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+# 2 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino" 2
+# 3 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino" 2
+# 4 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino" 2
+# 5 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino" 2
 //#include <Codes_CGU.h>// contient toutes les variables avec les loggins et les codes
-#include <C:\Users\cgueble\Documents\Arduino\Codes_CGU\Codes_CGU.h>
+# 7 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino" 2
 //****************Configuration pour Debug****************
 const boolean SERIAL_PORT_LOG_ENABLE = true; //true pour avoir la console active et false pour la desactiver ; il faut la desactiver pour l'application car meme pour que "verrou"
 const boolean AvecMail = true; //true pour activer les mails
@@ -44,7 +46,7 @@ boolean Status_Verrou = false;
 boolean Old_Status_IlsPorte = false;
 boolean Old_Status_Verrou = true;
 boolean Status_Verrou_Change = false;
-boolean TraitementVerrouEnCours = false;                 // true pour iniber la fonction verrou
+boolean TraitementVerrouEnCours = false; // true pour iniber la fonction verrou
 
 int MaxDebounse = 8;
 
@@ -66,8 +68,8 @@ int Minute;
 int Second;
 int Day;
 int DayofWeek; // Sunday is day 0
-int Month;     // Jan is month 0
-int Year;      // the Year minus 1900
+int Month; // Jan is month 0
+int Year; // the Year minus 1900
 int WeekDay;
 
 //Variable pour la gestion de thingspeak
@@ -80,7 +82,7 @@ time_t epoch = 0; // contient
 IPAddress ip;
 IPAddress timeServerIP;
 
-WiFiClient client;  // Initialize the Wifi client library.
+WiFiClient client; // Initialize the Wifi client library.
 WiFiUDP udp; //A UDP instance to let us send and receive packets over UDP
 PubSubClient mqttClient(client); // Initialize the PuBSubClient library
 
@@ -93,16 +95,16 @@ void setup() {
     Serial.println(SERIAL_PORT_LOG_ENABLE);
   }
   //Set up PIN in INPUT
-  pinMode(IlsPorte, INPUT);//External PullDown
-  pinMode(Verrou, INPUT_PULLUP);
+  pinMode(IlsPorte, 0x00);//External PullDown
+  pinMode(Verrou, 0x02);
 
   //Set up PIN in OUTPUT
 
 
   if (SERIAL_PORT_LOG_ENABLE) {
-    Serial.println(F("IlsPorte= 2 (GPIO2), INPUT ExtPulldown"));
-    Serial.println(F("Verrou= 3 (GPIO3), INPUT_PULLUP"));
-    Serial.println(F("Begining of Setup"));
+    Serial.println(((reinterpret_cast<const __FlashStringHelper *>((__extension__({static const char __c[] __attribute__((section(".irom.text"))) = ("IlsPorte= 2 (GPIO2), INPUT ExtPulldown"); &__c[0];}))))));
+    Serial.println(((reinterpret_cast<const __FlashStringHelper *>((__extension__({static const char __c[] __attribute__((section(".irom.text"))) = ("Verrou= 3 (GPIO3), INPUT_PULLUP"); &__c[0];}))))));
+    Serial.println(((reinterpret_cast<const __FlashStringHelper *>((__extension__({static const char __c[] __attribute__((section(".irom.text"))) = ("Begining of Setup"); &__c[0];}))))));
   }
 
   while ((WiFi.status() != WL_CONNECTED)) {
@@ -291,7 +293,7 @@ void loop() {
     if (SERIAL_PORT_LOG_ENABLE) {
       Serial.println("Ready for new acquisition");
     }
-  }  //fin status_Verrou == true
+  } //fin status_Verrou == true
 
   //debut daily mail
 
@@ -441,8 +443,8 @@ void GetTimeByUDP() {
     //the timestamp starts at byte 40 of the received packet and is four bytes,
     // or two words, long. First, esxtract the two words:
 
-    unsigned long highWord = word(packetBuffer[40], packetBuffer[41]);
-    unsigned long lowWord = word(packetBuffer[42], packetBuffer[43]);
+    unsigned long highWord = makeWord(packetBuffer[40], packetBuffer[41]);
+    unsigned long lowWord = makeWord(packetBuffer[42], packetBuffer[43]);
     // combine the four bytes (two words) into a long integer
     // this is NTP time (seconds since Jan 1 1900):
     secsSince1900 = highWord << 16 | lowWord;
@@ -471,14 +473,14 @@ void Read_Button(boolean IlsPorte, boolean Verrou)
   int Threshold = 4;
   while (DebounseCpt <= MaxDebounse) {
     DebounseCpt = DebounseCpt + 1;
-    if (digitalRead(IlsPorte) == LOW) Status_IlsPorte_Cpt = Status_IlsPorte_Cpt + 1; // ATTENTION - pour application reel : LOW (porte ouverte -> ILS ouvert -> LOW level via Ext pulldown)
-    if (digitalRead(Verrou) == HIGH) Status_Verrou_Cpt = Status_Verrou_Cpt + 1; // ATTENTION - pour application reel : HIGH
+    if (digitalRead(IlsPorte) == 0x0) Status_IlsPorte_Cpt = Status_IlsPorte_Cpt + 1; // ATTENTION - pour application reel : LOW (porte ouverte -> ILS ouvert -> LOW level via Ext pulldown)
+    if (digitalRead(Verrou) == 0x1) Status_Verrou_Cpt = Status_Verrou_Cpt + 1; // ATTENTION - pour application reel : HIGH
     delay(100);
   }
 
-  if (Status_IlsPorte_Cpt > Threshold) Status_IlsPorte = true; 
+  if (Status_IlsPorte_Cpt > Threshold) Status_IlsPorte = true;
   else Status_IlsPorte = false;
-  if (Status_Verrou_Cpt > Threshold ) Status_Verrou = true; 
+  if (Status_Verrou_Cpt > Threshold ) Status_Verrou = true;
   else Status_Verrou = false;
   if (SERIAL_PORT_LOG_ENABLE) {
       Serial.print("MAX debounse = ");
@@ -489,7 +491,7 @@ void Read_Button(boolean IlsPorte, boolean Verrou)
       Serial.println(Status_IlsPorte_Cpt);
       Serial.print("Status_Verrou_Cpt = ");
       Serial.println(Status_Verrou_Cpt);
-   
+
     }
   if (!((Status_IlsPorte == Old_Status_IlsPorte) && (Status_Verrou == Old_Status_Verrou)))
   {
@@ -508,15 +510,15 @@ void sendNTPpacket(IPAddress& address)
   memset(packetBuffer, 0, NTP_PACKET_SIZE);
   // Initialize values needed to form NTP request
   // (see URL above for details on the packets)
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1] = 0;     // Stratum, or type of clock
-  packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 0xEC;  // Peer Clock Precision
+  packetBuffer[0] = 0b11100011; // LI, Version, Mode
+  packetBuffer[1] = 0; // Stratum, or type of clock
+  packetBuffer[2] = 6; // Polling Interval
+  packetBuffer[3] = 0xEC; // Peer Clock Precision
   // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12]  = 49;
-  packetBuffer[13]  = 0x4E;
-  packetBuffer[14]  = 49;
-  packetBuffer[15]  = 52;
+  packetBuffer[12] = 49;
+  packetBuffer[13] = 0x4E;
+  packetBuffer[14] = 49;
+  packetBuffer[15] = 52;
 
   // all NTP fields have been given values, now
   // you can send a packet requesting a timestamp:
@@ -525,7 +527,7 @@ void sendNTPpacket(IPAddress& address)
   udp.endPacket();
 }
 
-void sendDailyMail() {    
+void sendDailyMail() {
     GetTimeByUDP();
     Read_Button(IlsPorte, Verrou);
     if (SERIAL_PORT_LOG_ENABLE) {
@@ -753,7 +755,7 @@ void reconnect()
 }
 
 void mqttpublish() {
-  String data = String("field1=" + String(Status_Verrou, DEC) + "&field2=" + String(Status_IlsPorte, DEC) + "&field3=" + String(rssi, DEC));
+  String data = String("field1=" + String(Status_Verrou, 10) + "&field2=" + String(Status_IlsPorte, 10) + "&field3=" + String(rssi, 10));
   // Get the data string length
   int length = data.length();
   char msgBuffer[length];
@@ -787,7 +789,7 @@ void mqttpublishtry() {
     }
 }
 
-void  WifiConnexionManager() {
+void WifiConnexionManager() {
   if (SERIAL_PORT_LOG_ENABLE) {
   Serial.println("Begin of WifiConnexionManager");
   }
@@ -802,7 +804,7 @@ void  WifiConnexionManager() {
           Serial.println(WiFi.SSID(i));
       }
     }
-for (int i = 0; i < numberOfNetworks; i++) {    
+for (int i = 0; i < numberOfNetworks; i++) {
     if (WiFi.SSID(i) == ssid1) {
       WiFi.begin(ssid1, password1);
       CurentSSID = WiFi.SSID(i);
@@ -842,7 +844,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
 }//end WifiConnexionManager
 
 
-void  WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
+void WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
   if (SERIAL_PORT_LOG_ENABLE) {
       Serial.println("Begin of WifiConnectOwner");
       Serial.println("Already connected to :");
@@ -853,7 +855,7 @@ void  WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
     if ((WiFi.SSID(i) == SSIDowner_fct) && ((String)SSIDowner_fct != CurentSSID)) {
       WiFi.disconnect();
       WiFi.begin(SSIDowner_fct, passwordowner_fct);
-      
+
       if (SERIAL_PORT_LOG_ENABLE) {
         Serial.print("Wifi Owner trouve . temtative de connexion a: ");
         Serial.println(SSIDowner_fct);
@@ -866,12 +868,12 @@ void  WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
           Serial.print("connecte a: ");
           Serial.println(SSIDowner_fct);
         }
-        
+
       }
       break;
     }
   }//End FOR
-Serial.println("End of WifiConnectOwner");  
+Serial.println("End of WifiConnectOwner");
 }//end WifiConnectOwner
 
 void WaitConnexion(){
@@ -917,10 +919,8 @@ void WaitConnexion(){
              Serial.print("connecte a: ");
              Serial.println(WiFi.SSID());
             }
-      } 
+      }
       if (SERIAL_PORT_LOG_ENABLE) {
-      Serial.println("End of WaitConnexion");  
-      }   
+      Serial.println("End of WaitConnexion");
+      }
 }// end Waitconnexion
-
-

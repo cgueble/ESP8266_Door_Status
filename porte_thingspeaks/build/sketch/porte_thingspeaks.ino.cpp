@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#line 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+#line 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <TimeLib.h>
@@ -85,6 +88,39 @@ WiFiUDP udp; //A UDP instance to let us send and receive packets over UDP
 PubSubClient mqttClient(client); // Initialize the PuBSubClient library
 
 //************************Debut de setup*************************
+#line 88 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void setup();
+#line 151 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void loop();
+#line 330 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void UpdateTime();
+#line 416 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void GetTimeByUDP();
+#line 464 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void Read_Button(boolean IlsPorte, boolean Verrou);
+#line 502 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void sendNTPpacket(IPAddress& address);
+#line 528 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void sendDailyMail();
+#line 551 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String FcThingspeakChannelAdress, String FcThingspeakChannelWriteAPIKey);
+#line 653 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+byte eRcv();
+#line 691 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void efail();
+#line 725 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void reconnect();
+#line 755 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void mqttpublish();
+#line 771 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void mqttpublishtry();
+#line 790 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void WifiConnexionManager();
+#line 845 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct);
+#line 877 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+void WaitConnexion();
+#line 88 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
 void setup() {
   delay(5000);
   if (SERIAL_PORT_LOG_ENABLE) {
@@ -922,5 +958,6 @@ void WaitConnexion(){
       Serial.println("End of WaitConnexion");  
       }   
 }// end Waitconnexion
+
 
 

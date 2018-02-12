@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#line 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
+#line 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Door_Status\\porte_thingspeaks\\porte_thingspeaks.ino"
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <TimeLib.h>
@@ -922,5 +925,6 @@ void WaitConnexion(){
       Serial.println("End of WaitConnexion");  
       }   
 }// end Waitconnexion
+
 
 
